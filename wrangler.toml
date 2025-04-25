@@ -1,0 +1,17 @@
+name = "r2-dir-list"
+main = "src/index.ts"
+compatibility_date = "2023-03-01"
+
+workers_dev = false
+routes = [{ pattern = "dl.btwce.com/*", zone_name = "btwce.com" }]
+
+# Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
+# Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
+r2_buckets = [
+	{ binding = "BUCKET_dl-files", bucket_name = "dl-files", preview_bucket_name = "dl-files" },
+]
+
+[observability]
+# https://developers.cloudflare.com/workers/observability/logs/workers-logs/
+enabled = true
+head_sampling_rate = 1 # optional. default = 1.
