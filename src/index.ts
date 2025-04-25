@@ -37,16 +37,7 @@ async function listBucket(bucket: R2Bucket, options?: R2ListOptions): Promise<R2
 function shouldReturnOriginResponse(originResponse: Response, siteConfig: SiteConfig): boolean {
 	const isNotEndWithSlash = originResponse.url.slice(-1) !== '/';
 	const is404 = originResponse.status === 404;
-
-	const overwriteZeroByteObject = false;
-
-	// order matters here
-	if (isNotEndWithSlash) return true;
-	if (is404) {
-		return false;
-	} else {
-		return !overwriteZeroByteObject;
-	}
+	return isNotEndWithSlash || !is404;
 }
 
 export default {
@@ -74,7 +65,7 @@ export default {
 			delimiter: '/',
 			include: ['httpMetadata', 'customMetadata'],
 		});
-		// filter out key===prefix, appears when dangerousOverwriteZeroByteObject===true
+		// filter out key===prefix
 		const files = index.objects.filter((obj) => obj.key !== objectKey);
 		const folders = index.delimitedPrefixes.filter((prefix) => prefix !== objectKey);
 		// If no object found, return origin 404 response. Only return 404 because if there is a zero byte object,
