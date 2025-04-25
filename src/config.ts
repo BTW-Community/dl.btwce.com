@@ -8,7 +8,7 @@ export function getSiteConfig(env: Env, domain: string): SiteConfig | undefined 
 			descriptions: {},
 			favicon: 'https://wiki.btwce.com/favicon.ico',
 			faviconType: 'image/x-icon',
-			cacheControl: 'public, max-age=3600',
+			cacheControl: 'public, max-age=14400',
 		},
 	};
 	return configs[domain];
